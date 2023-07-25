@@ -20,4 +20,12 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+:root {
+  --primary: rgb(192, 92, 145);
+  --primaryT: rgba(192, 92, 145, 0.7);
+  --secondary: rgb(56, 75, 55);
+  --tertiary: rgb(23, 20, 39);
+  --text: rgb(246, 227, 213);
 }/*# sourceMappingURL=styles.css.map */

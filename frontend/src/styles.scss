@@ -24,3 +24,17 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+$primary: rgb(192, 92, 145);
+$primaryT: rgb(192, 92, 145, 0.7);
+$text: rgb(246, 227, 213);
+$secondary: rgb(56, 75, 55);
+$tertiary: rgb(23, 20, 39);
+
+:root {
+  --primary: #{$primary};
+  --primaryT: #{$primaryT};
+  --secondary: #{$secondary};
+  --tertiary: #{$tertiary};
+  --text: #{$text};
+}
