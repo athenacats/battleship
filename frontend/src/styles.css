@@ -1,7 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Pirata+One&display=swap");
-
-$fonts: "Pirata One", "Brush Script MT", "Lucida Handwriting", cursive;
-
 * {
   margin: 0;
   box-sizing: border-box;
@@ -15,7 +12,7 @@ body {
   width: 100%;
   overflow-x: hidden;
   font-size: 16px;
-  font-family: $fonts;
+  font-family: "Pirata One", "Brush Script MT", "Lucida Handwriting", cursive;
 }
 
 body {
@@ -23,4 +20,4 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-}
+}/*# sourceMappingURL=styles.css.map */
