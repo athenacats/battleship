@@ -16,10 +16,10 @@ export class ShipdisplayComponent implements OnInit {
 
   ngOnInit(): void {
     this.ships = this.shipService.getAll();
-    this.ships = this.ships.map(function (e) {
-      e['imagePath'] = 'assets/' + e.imageFileName;
-      return e;
-    });
+  }
+
+  mapping() {
+    console.log(this.ships[0]);
     this.itemIsClicked.emit(this.ships[0]);
   }
 }
