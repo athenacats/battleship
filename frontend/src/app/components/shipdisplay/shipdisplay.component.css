@@ -1,1 +1,28 @@
-/*# sourceMappingURL=shipdisplay.component.css.map */
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: auto;
+  align-items: center;
+  background-color: var(--secondary);
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+.container .shipItems {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text);
+}
+.container .shipItems .shipImage {
+  max-height: 4rem;
+  cursor: pointer;
+}
+.container .shipItems .shipImage:hover {
+  opacity: 0.8;
+}
+.container .shipItems p {
+  text-align: center;
+}/*# sourceMappingURL=shipdisplay.component.css.map */
