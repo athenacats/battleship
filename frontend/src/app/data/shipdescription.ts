@@ -4,12 +4,12 @@ export const Ship: Ships[] = [
   {
     id: 1,
     name: 'Sailboat',
-    imageFileName: 'sailboat-svgrepo-com.svg',
+    imageFileName: 'sailing-boat-svgrepo-com.svg',
     description:
       'Old reliable here! Each ship occupies 2 cells, and you can use up to 5 on the map',
     shipLength: 2,
     alowedNumberOfShips: 5,
-    imagePath: './assets/sailboat-svgrepo-com.svg',
+    imagePath: './assets/sailing-boat-svgrepo-com.svg',
   },
   {
     id: 2,

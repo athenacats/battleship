@@ -1,1 +1,7 @@
-<p>shipdisplay works!</p>
+<div class="container">
+  <div *ngFor="let ship of ships">
+    <img src="{{ ship.imagePath }}" class="shipImage" alt="{ship.name}" />
+    <h3>{{ ship.name }}</h3>
+    <p>{{ ship.description }}</p>
+  </div>
+</div>
