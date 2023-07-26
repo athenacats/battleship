@@ -6,5 +6,5 @@ export class Ships {
   shipLength!: number;
   alowedNumberOfShips!: number;
   imagePath!: string;
-  orientation!: false;
+  orientation!: string;
 }

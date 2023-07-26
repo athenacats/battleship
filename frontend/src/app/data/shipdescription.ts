@@ -10,7 +10,7 @@ export const Ship: Ships[] = [
     shipLength: 2,
     alowedNumberOfShips: 5,
     imagePath: './assets/sailing-boat-svgrepo-com.svg',
-    orientation: false,
+    orientation: 'Horizontal',
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ export const Ship: Ships[] = [
     shipLength: 4,
     alowedNumberOfShips: 2,
     imagePath: './assets/submarine-svgrepo-com.svg',
-    orientation: false,
+    orientation: 'Horizontal',
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ export const Ship: Ships[] = [
     shipLength: 3,
     alowedNumberOfShips: 3,
     imagePath: './assets/yacht.svg',
-    orientation: false,
+    orientation: 'Horizontal',
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ export const Ship: Ships[] = [
     shipLength: 4,
     alowedNumberOfShips: 2,
     imagePath: './assets/ships-boat-svgrepo-com.svg',
-    orientation: false,
+    orientation: 'Horizontal',
   },
   {
     id: 5,
@@ -54,6 +54,6 @@ export const Ship: Ships[] = [
     shipLength: 6,
     alowedNumberOfShips: 2,
     imagePath: './assets/cargo-ship-boat-svgrepo-com.svg',
-    orientation: false,
+    orientation: 'Horizontal',
   },
 ];
