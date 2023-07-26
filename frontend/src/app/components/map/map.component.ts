@@ -19,6 +19,7 @@ export class MapComponent implements OnInit {
   grid: Cell[][] = [];
   selectedShip!: Ships;
   shipArray: Ships[] = [];
+  showAlertMessage = false;
   alertMessage!: string;
 
   ngOnInit(): void {
@@ -46,7 +47,22 @@ export class MapComponent implements OnInit {
 
   placeShip(row: number, col: number): void {
     const currentShip = this.selectedShip;
-    if (!currentShip || currentShip.alowedNumberOfShips === 0) {
+    if (!currentShip) {
+      this.alertMessage = 'Select a ship below first!';
+      this.showAlertMessage = true;
+      setTimeout(() => {
+        this.showAlertMessage = false;
+      }, 2000);
+      return;
+    }
+
+    if (currentShip.alowedNumberOfShips === 0) {
+      this.alertMessage =
+        "You've already placed the maximum number of ships of this kind!";
+      this.showAlertMessage = true;
+      setTimeout(() => {
+        this.showAlertMessage = false;
+      }, 2000);
       return; // No ship selected, do nothing
     }
 
@@ -74,8 +90,10 @@ export class MapComponent implements OnInit {
 
       // Optionally, you can update the UI to visually display the placed ship on the grid
     } else {
-      console.log(this.alertMessage);
-      // Display an error message or provide feedback to the user that the ship cannot be placed here
+      this.showAlertMessage = true;
+      setTimeout(() => {
+        this.showAlertMessage = false;
+      }, 2000);
     }
   }
 
