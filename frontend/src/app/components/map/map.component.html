@@ -1,12 +1,16 @@
 <div>
   <table>
-    <tr *ngFor="let row of rows">
-      <td *ngFor="let col of cols"></td>
+    <tr *ngFor="let row of grid; let i = index">
+      <td
+        *ngFor="let cell of row; let j = index"
+        (click)="placeShip(i, j)"
+        [style.background-color]="cell.backgroundColor"
+      ></td>
     </tr>
   </table>
   <div *ngIf="selectedShip">
     <h2>Selected Ship</h2>
-    <div class="details">
+    <div>
       <img
         src="{{ selectedShip.imagePath }}"
         class="shipImage"
