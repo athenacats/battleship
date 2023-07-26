@@ -24,10 +24,11 @@ body {
 
 :root {
   --primary: rgb(192, 92, 145);
-  --primaryT: rgba(192, 92, 145, 0.7);
+  --primaryT: rgb(112, 26, 72);
   --secondary: rgb(56, 75, 55);
   --tertiary: rgb(23, 20, 39);
   --text: rgb(246, 227, 213);
   --table: rgb(219, 115, 126);
   --borders: #f4c05d;
+  --fonts: Pirata One, Brush Script MT, Lucida Handwriting, cursive;
 }/*# sourceMappingURL=styles.css.map */
