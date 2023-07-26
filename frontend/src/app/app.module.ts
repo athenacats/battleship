@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { ShipdisplayComponent } from './components/shipdisplay/shipdisplay.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
-  declarations: [AppComponent, ShipdisplayComponent, HeaderComponent, HomeComponent],
+  declarations: [AppComponent, ShipdisplayComponent, HeaderComponent, HomeComponent, MapComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
