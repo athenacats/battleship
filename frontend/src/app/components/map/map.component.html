@@ -1,1 +1,7 @@
-<p>map works!</p>
+<div>
+  <table>
+    <tr *ngFor="let row of rows">
+      <td *ngFor="let col of cols" (click)="placeShip(row, col)"></td>
+    </tr>
+  </table>
+</div>

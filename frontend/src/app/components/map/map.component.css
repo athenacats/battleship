@@ -1,0 +1,19 @@
+div {
+  padding: 2rem;
+}
+div table {
+  height: 20rem;
+  width: 20rem;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: auto;
+}
+div table td {
+  border: 1px solid var(--borders);
+  cursor: pointer;
+  margin: 0;
+  background-color: var(--table);
+}
+div table td:hover {
+  opacity: 0.8;
+}/*# sourceMappingURL=map.component.css.map */

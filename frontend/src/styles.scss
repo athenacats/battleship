@@ -30,6 +30,8 @@ $primaryT: rgb(192, 92, 145, 0.7);
 $text: rgb(246, 227, 213);
 $secondary: rgb(56, 75, 55);
 $tertiary: rgb(23, 20, 39);
+$table: rgba(219, 115, 126);
+$borders: #f4c05d;
 
 :root {
   --primary: #{$primary};
@@ -37,4 +39,6 @@ $tertiary: rgb(23, 20, 39);
   --secondary: #{$secondary};
   --tertiary: #{$tertiary};
   --text: #{$text};
+  --table: #{$table};
+  --borders: #{$borders};
 }
