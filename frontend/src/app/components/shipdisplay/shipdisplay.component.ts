@@ -18,8 +18,8 @@ export class ShipdisplayComponent implements OnInit {
     this.ships = this.shipService.getAll();
   }
 
-  mapping() {
+  mapping(ship: Ships) {
     console.log(this.ships[0]);
-    this.itemIsClicked.emit(this.ships[0]);
+    this.itemIsClicked.emit(ship);
   }
 }

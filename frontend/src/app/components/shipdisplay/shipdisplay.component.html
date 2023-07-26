@@ -2,8 +2,8 @@
   <div class="shipItems" *ngFor="let ship of ships">
     <img
       role="button"
-      (click)="mapping()"
-      (keydown)="mapping()"
+      (click)="mapping(ship)"
+      (keydown)="mapping(ship)"
       src="{{ ship.imagePath }}"
       class="shipImage"
       alt="{{ ship.name }}"
