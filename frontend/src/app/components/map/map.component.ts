@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Component, OnInit } from '@angular/core';
 import { Ships } from 'src/app/data/shipdata';
 import { SelectedshipService } from 'src/app/services/selectedship.service';
@@ -18,6 +19,7 @@ export class MapComponent implements OnInit {
   grid: Cell[][] = [];
   selectedShip!: Ships;
   shipArray: Ships[] = [];
+  alertMessage!: string;
 
   ngOnInit(): void {
     for (let i = 0; i < this.rows.length; i++) {
@@ -72,6 +74,7 @@ export class MapComponent implements OnInit {
 
       // Optionally, you can update the UI to visually display the placed ship on the grid
     } else {
+      console.log(this.alertMessage);
       // Display an error message or provide feedback to the user that the ship cannot be placed here
     }
   }
@@ -82,16 +85,14 @@ export class MapComponent implements OnInit {
       (ship.orientation === 'Horizontal' && col + ship.shipLength > 10) ||
       (ship.orientation === 'Vertical' && row + ship.shipLength > 10)
     ) {
-      // Ship goes out of bounds
-      console.log('yes');
+      this.alertMessage = 'You cannot place a ship here';
       return false;
     }
 
     if (ship.orientation === 'Horizontal') {
       for (let i = 0; i < ship.shipLength; i++) {
         if (grid[row][col + i].value !== null) {
-          console.log('yes');
-          // Cell is already occupied by another ship
+          this.alertMessage = 'A ship already occupies this space';
           return false;
         }
       }
@@ -99,13 +100,13 @@ export class MapComponent implements OnInit {
     if (ship.orientation === 'Vertical') {
       for (let i = 0; i < ship.shipLength; i++) {
         if (grid[row + i][col].value !== null) {
-          console.log('yes');
-          // Cell is already occupied by another ship
+          this.alertMessage = 'A ship already occupies this space';
           return false;
         }
       }
     }
     if (this.shipArray.length === 5) {
+      this.alertMessage = "You've already placed 5 ships!";
       return false;
     }
 
