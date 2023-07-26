@@ -1,32 +1,34 @@
-<div>
-  <table>
-    <tr *ngFor="let row of grid; let i = index">
-      <td
-        *ngFor="let cell of row; let j = index"
-        (click)="placeShip(i, j)"
-        [style.background-color]="cell.backgroundColor"
-      ></td>
-    </tr>
-  </table>
-  <div *ngIf="selectedShip">
-    <h2>Selected Ship</h2>
-    <div>
-      <img
-        src="{{ selectedShip.imagePath }}"
-        class="shipImage"
-        alt="{{ selectedShip.name }}"
-      />
-      <h3>
-        {{ selectedShip.name }}
-      </h3>
-      <h4>Ship Length: {{ selectedShip.shipLength }}</h4>
-      <h4>Allowed on Map: {{ selectedShip.alowedNumberOfShips }}</h4>
-      <h4>Orientation: {{ selectedShip.orientation }}</h4>
-      <button (click)="orientation()">Orientation</button>
+<div class="container">
+  <div class="content">
+    <table>
+      <tr *ngFor="let row of grid; let i = index">
+        <td
+          *ngFor="let cell of row; let j = index"
+          (click)="placeShip(i, j)"
+          [style.background-color]="cell.backgroundColor"
+        ></td>
+      </tr>
+    </table>
+    <div *ngIf="selectedShip">
+      <h2>Selected Ship</h2>
+      <div>
+        <img
+          src="{{ selectedShip.imagePath }}"
+          class="shipImage"
+          alt="{{ selectedShip.name }}"
+        />
+        <h3>
+          {{ selectedShip.name }}
+        </h3>
+        <h4>Ship Length: {{ selectedShip.shipLength }}</h4>
+        <h4>Allowed on Map: {{ selectedShip.alowedNumberOfShips }}</h4>
+        <h4>Orientation: {{ selectedShip.orientation }}</h4>
+        <button (click)="orientation()">Change Orientation</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="alert" *ngIf="showAlertMessage">
-  <h3>{{ this.alertMessage }}</h3>
+  <div class="alert" *ngIf="showAlertMessage">
+    <h3>{{ this.alertMessage }}</h3>
+  </div>
 </div>

@@ -1,9 +1,17 @@
-div {
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
+  gap: 1rem;
+}
+.container .content {
   display: flex;
   justify-content: center;
+  gap: 3rem;
 }
-div table {
+.container .content table {
   min-width: 20rem;
   height: 20rem;
   width: 20rem;
@@ -11,40 +19,40 @@ div table {
   border-collapse: collapse;
   margin: auto;
 }
-div table td {
+.container .content table td {
   border: 1px solid var(--borders);
   cursor: pointer;
   margin: 0;
   background-color: var(--table);
 }
-div table td:hover {
+.container .content table td:hover {
   opacity: 0.8;
 }
-div div {
+.container .content div {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
 }
-div div h2 {
+.container .content div h2 {
   background-color: var(--primary);
   font-size: 1.5rem;
   text-align: center;
   padding: 0.5rem;
   border-radius: 1rem;
 }
-div div div {
+.container .content div div {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
   background-color: var(--primary);
 }
-div div div .shipImage {
+.container .content div div .shipImage {
   max-height: 4rem;
 }
-div div div button {
+.container .content div div button {
   border: none;
   outline: none;
   font-family: var(--fonts);
@@ -55,6 +63,11 @@ div div div button {
   cursor: pointer;
   color: var(--text);
 }
-div div div button:hover {
+.container .content div div button:hover {
   opacity: 0.8;
+}
+.container .alert {
+  background-color: var(--primary);
+  padding: 0.5rem;
+  border-radius: 1rem;
 }/*# sourceMappingURL=map.component.css.map */
