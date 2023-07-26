@@ -58,11 +58,10 @@ export class MapComponent implements OnInit {
       } else {
         for (let i = 0; i < currentShip.shipLength; i++) {
           this.grid[row + i][col].value = 1;
-          this.grid[row][col + i].backgroundColor = 'var(--primaryT)';
+          this.grid[row + i][col].backgroundColor = 'var(--primaryT)';
         }
       }
       currentShip.alowedNumberOfShips -= 1;
-      console.log(currentShip.alowedNumberOfShips);
 
       // Add the placed ship to the selectedShips array
       this.shipArray.push(currentShip);
@@ -78,8 +77,6 @@ export class MapComponent implements OnInit {
   }
 
   canPlaceShip(ship: Ships, grid: Cell[][], row: number, col: number): boolean {
-    console.log(row, col);
-    console.log(ship.shipLength);
     // Check if the ship can be placed at the specified position (row, col)
     if (
       (ship.orientation === 'Horizontal' && col + ship.shipLength > 10) ||
@@ -98,14 +95,18 @@ export class MapComponent implements OnInit {
           return false;
         }
       }
-    } else {
+    }
+    if (ship.orientation === 'Vertical') {
       for (let i = 0; i < ship.shipLength; i++) {
-        if (grid[row + i][col].value !== 0) {
+        if (grid[row + i][col].value !== null) {
           console.log('yes');
           // Cell is already occupied by another ship
           return false;
         }
       }
+    }
+    if (this.shipArray.length === 5) {
+      return false;
     }
 
     console.log('yes');
