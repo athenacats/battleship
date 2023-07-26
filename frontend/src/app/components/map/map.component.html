@@ -1,7 +1,10 @@
 <div class="container">
   <div class="buttons">
     <button (click)="clearMap()">Clear Map</button>
-    <button (click)="startGame()">Start Game</button>
+    <div class="alert">
+      <h3 *ngIf="showAlertMessage">{{ this.alertMessage }}</h3>
+    </div>
+    <button class="startGame" (click)="startGame()">Start Game</button>
   </div>
   <div class="content">
     <table>
@@ -30,9 +33,5 @@
         <button (click)="orientation()">Change Orientation</button>
       </div>
     </div>
-  </div>
-
-  <div class="alert">
-    <h3 *ngIf="showAlertMessage">{{ this.alertMessage }}</h3>
   </div>
 </div>

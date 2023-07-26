@@ -4,7 +4,37 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  padding-top: 0;
   gap: 1rem;
+}
+.container .buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+}
+.container .buttons .alert h3 {
+  background-color: var(--primary);
+  padding: 0.6rem;
+  border-radius: 1rem;
+  font-size: 1.3rem;
+}
+.container .buttons button {
+  border: none;
+  outline: none;
+  font-family: var(--fonts);
+  padding: 0.6rem;
+  font-size: 1.3rem;
+  border-radius: 1rem;
+  background-color: var(--primaryT);
+  cursor: pointer;
+  color: var(--text);
+}
+.container .buttons button:hover {
+  opacity: 0.8;
+}
+.container .buttons .startGame {
+  background-color: var(--tertiary);
 }
 .container .content {
   display: flex;
@@ -65,12 +95,4 @@
 }
 .container .content div div button:hover {
   opacity: 0.8;
-}
-.container .alert {
-  height: 2rem;
-}
-.container .alert h3 {
-  background-color: var(--primary);
-  padding: 0.5rem;
-  border-radius: 1rem;
 }/*# sourceMappingURL=map.component.css.map */
