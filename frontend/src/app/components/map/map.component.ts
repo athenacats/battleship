@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Ships } from 'src/app/data/shipdata';
 import { SelectedshipService } from 'src/app/services/selectedship.service';
+import { ShipsService } from 'src/app/services/ships.service';
 
 interface Cell {
   value: number | null;
@@ -17,12 +18,14 @@ export class MapComponent implements OnInit {
   rows = Array.from({ length: 10 }, (_, i) => i);
   cols = Array.from({ length: 10 }, (_, i) => i);
   grid: Cell[][] = [];
-  selectedShip!: Ships;
+  selectedShip: Ships | null = null;
   shipArray: Ships[] = [];
   showAlertMessage = false;
   alertMessage!: string;
+  originalShips: Ships[] = [];
 
   ngOnInit(): void {
+    this.originalShips = this.shipService.getAll();
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
@@ -31,13 +34,19 @@ export class MapComponent implements OnInit {
     }
   }
 
-  constructor(private selectedShipService: SelectedshipService) {
+  constructor(
+    private selectedShipService: SelectedshipService,
+    private shipService: ShipsService,
+  ) {
     this.selectedShipService.getSelectedShip().subscribe((ship: Ships) => {
       this.selectedShip = ship; // Update the selected ship variable when the service emits a new ship
     });
   }
 
   orientation() {
+    if (!this.selectedShip) {
+      return; // No ship selected or allowed number of ships reached, do nothing
+    }
     if (this.selectedShip.orientation === 'Horizontal') {
       return (this.selectedShip.orientation = 'Vertical');
     } else {
@@ -124,11 +133,31 @@ export class MapComponent implements OnInit {
       }
     }
     if (this.shipArray.length === 5) {
-      this.alertMessage = "You've already placed 5 ships!";
+      this.alertMessage = "You've already placed 5 ships! Start the Game!";
       return false;
     }
 
     console.log('yes');
     return true; // Ship can be placed at the specified position
   }
+
+  clearMap() {
+    this.shipArray = [];
+    this.selectedShip = null;
+    for (let i = 0; i < this.rows.length; i++) {
+      for (let j = 0; j < this.cols.length; j++) {
+        this.grid[i][j] = { value: null, backgroundColor: 'var(--table)' };
+      }
+    }
+    this.shipService.getAll().forEach((shipItem) => {
+      const originalShip = this.originalShips.find(
+        (originalShipItem) => originalShipItem.id === shipItem.id,
+      );
+      if (originalShip) {
+        shipItem.alowedNumberOfShips = originalShip.alowedNumberOfShips;
+      }
+    });
+  }
+
+  startGame() {}
 }

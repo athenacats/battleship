@@ -66,9 +66,12 @@
     }
   }
   .alert {
-    background-color: var(--primary);
-    padding: 0.5rem;
+    height: 2rem;
+    h3 {
+      background-color: var(--primary);
+      padding: 0.5rem;
 
-    border-radius: 1rem;
+      border-radius: 1rem;
+    }
   }
 }

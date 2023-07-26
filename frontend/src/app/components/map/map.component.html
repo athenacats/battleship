@@ -1,4 +1,8 @@
 <div class="container">
+  <div class="buttons">
+    <button (click)="clearMap()">Clear Map</button>
+    <button (click)="startGame()">Start Game</button>
+  </div>
   <div class="content">
     <table>
       <tr *ngFor="let row of grid; let i = index">
@@ -28,7 +32,7 @@
     </div>
   </div>
 
-  <div class="alert" *ngIf="showAlertMessage">
-    <h3>{{ this.alertMessage }}</h3>
+  <div class="alert">
+    <h3 *ngIf="showAlertMessage">{{ this.alertMessage }}</h3>
   </div>
 </div>

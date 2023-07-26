@@ -67,6 +67,9 @@
   opacity: 0.8;
 }
 .container .alert {
+  height: 2rem;
+}
+.container .alert h3 {
   background-color: var(--primary);
   padding: 0.5rem;
   border-radius: 1rem;
