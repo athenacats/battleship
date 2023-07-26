@@ -26,6 +26,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.originalShips = this.shipService.getAll();
+    console.log(this.originalShips);
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
@@ -76,7 +77,6 @@ export class MapComponent implements OnInit {
     }
 
     if (this.canPlaceShip(currentShip, this.grid, row, col)) {
-      // Update the grid to mark ship positions (assuming shipLength and orientation are set)
       if (currentShip.orientation === 'Horizontal') {
         for (let i = 0; i < currentShip.shipLength; i++) {
           this.grid[row][col + i].value = 1;
@@ -88,16 +88,14 @@ export class MapComponent implements OnInit {
           this.grid[row + i][col].backgroundColor = 'var(--primaryT)';
         }
       }
-      currentShip.alowedNumberOfShips -= 1;
-
-      // Add the placed ship to the selectedShips array
+      const originalShip = this.originalShips.find(
+        (originalShipItem) => originalShipItem.id === currentShip.id,
+      );
+      if (originalShip) {
+        originalShip.alowedNumberOfShips--;
+      }
       this.shipArray.push(currentShip);
       console.log(this.shipArray);
-
-      // Remove the placed ship from the available ships list (assuming you have a ships list)
-      // this.availableShips = this.availableShips.filter((s) => s.id !== ship.id);
-
-      // Optionally, you can update the UI to visually display the placed ship on the grid
     } else {
       this.showAlertMessage = true;
       setTimeout(() => {
@@ -107,7 +105,6 @@ export class MapComponent implements OnInit {
   }
 
   canPlaceShip(ship: Ships, grid: Cell[][], row: number, col: number): boolean {
-    // Check if the ship can be placed at the specified position (row, col)
     if (
       (ship.orientation === 'Horizontal' && col + ship.shipLength > 10) ||
       (ship.orientation === 'Vertical' && row + ship.shipLength > 10)
@@ -141,7 +138,7 @@ export class MapComponent implements OnInit {
     return true; // Ship can be placed at the specified position
   }
 
-  clearMap() {
+  clearMap(): void {
     this.shipArray = [];
     this.selectedShip = null;
     for (let i = 0; i < this.rows.length; i++) {
@@ -149,7 +146,9 @@ export class MapComponent implements OnInit {
         this.grid[i][j] = { value: null, backgroundColor: 'var(--table)' };
       }
     }
+    console.log('Original Ships:', this.originalShips);
     this.shipService.getAll().forEach((shipItem) => {
+      console.log('Ship Item:', shipItem);
       const originalShip = this.originalShips.find(
         (originalShipItem) => originalShipItem.id === shipItem.id,
       );
