@@ -1,7 +1,10 @@
 div {
   padding: 2rem;
+  display: flex;
+  justify-content: center;
 }
 div table {
+  min-width: 20rem;
   height: 20rem;
   width: 20rem;
   border-spacing: 0;
@@ -16,4 +19,26 @@ div table td {
 }
 div table td:hover {
   opacity: 0.8;
+}
+div div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+div div h2 {
+  background-color: var(--primary);
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+div div div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+div div div .shipImage {
+  max-height: 4rem;
 }/*# sourceMappingURL=map.component.css.map */

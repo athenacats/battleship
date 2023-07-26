@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Ships } from 'src/app/data/shipdata';
+import { SelectedshipService } from 'src/app/services/selectedship.service';
 
 @Component({
   selector: 'app-map',
@@ -10,7 +11,7 @@ export class MapComponent implements OnInit {
   rows = Array.from({ length: 10 }, (_, i) => i);
   cols = Array.from({ length: 10 }, (_, i) => i);
   grid: unknown[][] = [];
-  selectedShips: Ships[] = [];
+  selectedShip!: Ships;
 
   ngOnInit(): void {
     for (let i = 0; i < this.rows.length; i++) {
@@ -19,6 +20,11 @@ export class MapComponent implements OnInit {
         this.grid[i][j] = null; // Represents an empty cell
       }
     }
+  }
+  constructor(private selectedShipService: SelectedshipService) {
+    this.selectedShipService.getSelectedShip().subscribe((ship: Ships) => {
+      this.selectedShip = ship; // Update the selected ship variable when the service emits a new ship
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -4,18 +4,19 @@
       <td *ngFor="let col of cols" (click)="placeShip(row, col)"></td>
     </tr>
   </table>
-  <div *ngIf="selectedShips.length > 0">
+  <div *ngIf="selectedShip">
     <h2>Selected Ship</h2>
-    <div *ngFor="let ship of selectedShips">
-      <div>
-        {{ ship.imagePath }}
-      </div>
-      <div>
-        {{ ship.name }}
-      </div>
-      <div>
-        {{ ship.shipLength }}
-      </div>
+    <div>
+      <img
+        src="{{ selectedShip.imagePath }}"
+        class="shipImage"
+        alt="{{ selectedShip.name }}"
+      />
+      <h3>
+        {{ selectedShip.name }}
+      </h3>
+      <h4>Ship Length: {{ selectedShip.shipLength }}</h4>
+      <h4>Allowed on Map: {{ selectedShip.alowedNumberOfShips }}</h4>
     </div>
   </div>
 </div>
