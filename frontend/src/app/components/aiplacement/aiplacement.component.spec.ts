@@ -8,7 +8,7 @@ describe('AiplacementComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AiplacementComponent]
+      declarations: [AiplacementComponent],
     });
     fixture = TestBed.createComponent(AiplacementComponent);
     component = fixture.componentInstance;
