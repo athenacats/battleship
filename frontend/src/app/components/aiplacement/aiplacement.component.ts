@@ -44,7 +44,9 @@ export class AiplacementComponent implements OnInit {
       console.log(randomShipCount);
       console.log(this.shipSelected);
     }
+    this.placeRandomShips();
   }
+
   placeRandomShips(): void {
     for (const ship of this.shipSelected) {
       let placed = false;
@@ -55,6 +57,7 @@ export class AiplacementComponent implements OnInit {
         if (this.canPlaceShip(ship, row, col)) {
           this.placeShip(ship, row, col);
           placed = true;
+          console.log(placed);
         }
       }
     }
