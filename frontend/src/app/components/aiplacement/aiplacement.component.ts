@@ -49,6 +49,9 @@ export class AiplacementComponent implements OnInit {
         randomShipCount.orientation = 'Vertical';
       }
       this.shipSelected.push(randomShipCount);
+      console.log(this.shipSelected);
+      this.shipSelected.sort((a, b) => b.shipLength - a.shipLength);
+      console.log(this.shipSelected);
       // console.log(randomShipCount.orientation);
       // console.log(randomShipCount);
       // console.log(this.shipSelected);
@@ -73,10 +76,8 @@ export class AiplacementComponent implements OnInit {
         console.log(retries);
       }
       if (!placed) {
-        // Reset the grid and ship placement and start again with a new random arrangement
         this.resetGrid();
         this.resetShipPlacement();
-        // Retry placing the current ship
         this.placeRandomShips();
         return;
       }
