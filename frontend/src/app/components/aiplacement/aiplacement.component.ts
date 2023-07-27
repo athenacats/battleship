@@ -34,7 +34,7 @@ export class AiplacementComponent implements OnInit {
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
-        this.grid[i][j] = { value: null, backgroundColor: 'var(--primary)' }; // Represents an empty cell
+        this.grid[i][j] = { value: null, backgroundColor: 'var(--secondary)' }; // Represents an empty cell
       }
     }
     for (let i = 0; i < 5; i++) {
@@ -49,9 +49,9 @@ export class AiplacementComponent implements OnInit {
         randomShipCount.orientation = 'Vertical';
       }
       this.shipSelected.push(randomShipCount);
-      console.log(this.shipSelected);
+
       this.shipSelected.sort((a, b) => b.shipLength - a.shipLength);
-      console.log(this.shipSelected);
+      //console.log(this.shipSelected);
       // console.log(randomShipCount.orientation);
       // console.log(randomShipCount);
       // console.log(this.shipSelected);
@@ -87,7 +87,7 @@ export class AiplacementComponent implements OnInit {
   resetGrid(): void {
     for (let i = 0; i < this.rows.length; i++) {
       for (let j = 0; j < this.cols.length; j++) {
-        this.grid[i][j] = { value: null, backgroundColor: 'var(--primary)' };
+        this.grid[i][j] = { value: null, backgroundColor: 'var(--secondary)' };
       }
     }
   }
@@ -131,12 +131,12 @@ export class AiplacementComponent implements OnInit {
     if (ship.orientation === 'Horizontal') {
       for (let i = 0; i < ship.shipLength; i++) {
         this.grid[row][col + i].value = 1;
-        this.grid[row][col + i].backgroundColor = 'var(--table)';
+        this.grid[row][col + i].backgroundColor = 'var(--secondary)';
       }
     } else {
       for (let i = 0; i < ship.shipLength; i++) {
         this.grid[row + i][col].value = 1;
-        this.grid[row + i][col].backgroundColor = 'var(--table)';
+        this.grid[row + i][col].backgroundColor = 'var(--secondary)';
       }
     }
   }
