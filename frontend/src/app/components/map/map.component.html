@@ -4,7 +4,9 @@
     <div class="alert">
       <h3 *ngIf="showAlertMessage">{{ this.alertMessage }}</h3>
     </div>
-    <button class="startGame" (click)="startGame()">Start Game</button>
+    <button *ngIf="startDisplay" class="startGame" (click)="startGame()">
+      Start Game
+    </button>
   </div>
   <div class="content">
     <table>

@@ -25,6 +25,7 @@ export class MapComponent implements OnInit {
   showAlertMessage = false;
   alertMessage!: string;
   originalShips: Ships[] = [];
+  startDisplay = false;
   @Output() gridEmitter = new EventEmitter<Cell[][]>();
 
   ngOnInit(): void {
@@ -101,6 +102,9 @@ export class MapComponent implements OnInit {
       this.shipArray.push(currentShip);
       this.gridEmitter.emit(this.grid);
       console.log(this.shipArray);
+      if (this.shipArray.length === 5) {
+        this.startDisplay = true;
+      }
     } else {
       this.showAlertMessage = true;
       setTimeout(() => {
@@ -135,6 +139,7 @@ export class MapComponent implements OnInit {
       }
     }
     if (this.shipArray.length === 5) {
+      this.startDisplay = true;
       this.alertMessage = "You've already placed 5 ships! Start the Game!";
       return false;
     }
