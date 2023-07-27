@@ -20,6 +20,7 @@ export class AiplacementComponent implements OnInit {
   cols = Array.from({ length: 10 }, (_, i) => i);
   originalShips: Ships[] = [];
   grid: Cell[][] = [];
+  maxPlacementRetries = 50;
 
   constructor(private shipService: ShipsService) {
     this.ships = this.shipService.getAll();
@@ -41,7 +42,7 @@ export class AiplacementComponent implements OnInit {
         this.shipArray[Math.floor(Math.random() * this.shipArray.length)];
       randomShipCount.alowedNumberOfShips--;
       const chosenOrientation = Math.floor(Math.random() * 2);
-      console.log(chosenOrientation);
+      //console.log(chosenOrientation);
       if (chosenOrientation === 0) {
         randomShipCount.orientation = 'Horizontal';
       } else if (chosenOrientation === 1) {
@@ -58,17 +59,44 @@ export class AiplacementComponent implements OnInit {
   placeRandomShips(): void {
     for (const ship of this.shipSelected) {
       let placed = false;
-      while (!placed) {
+      let retries = 0;
+      while (!placed && retries < this.maxPlacementRetries) {
         const row = Math.floor(Math.random() * this.rows.length);
         const col = Math.floor(Math.random() * this.cols.length);
 
         if (this.canPlaceShip(ship, row, col)) {
           this.placeShip(ship, row, col);
           placed = true;
-          console.log(placed);
+          //console.log(placed);
         }
+        retries++;
+        console.log(retries);
+      }
+      if (!placed) {
+        // Reset the grid and ship placement and start again with a new random arrangement
+        this.resetGrid();
+        this.resetShipPlacement();
+        // Retry placing the current ship
+        this.placeRandomShips();
+        return;
       }
     }
+  }
+
+  resetGrid(): void {
+    for (let i = 0; i < this.rows.length; i++) {
+      for (let j = 0; j < this.cols.length; j++) {
+        this.grid[i][j] = { value: null, backgroundColor: 'var(--primary)' };
+      }
+    }
+  }
+
+  resetShipPlacement(): void {
+    this.shipSelected.forEach((ship) => {
+      ship.alowedNumberOfShips =
+        this.originalShips.find((originalShip) => originalShip.id === ship.id)
+          ?.alowedNumberOfShips || 0;
+    });
   }
 
   private canPlaceShip(ship: Ships, row: number, col: number): boolean {
@@ -86,7 +114,8 @@ export class AiplacementComponent implements OnInit {
           return false;
         }
       }
-    } else {
+    }
+    if (ship.orientation === 'Vertical') {
       for (let i = 0; i < ship.shipLength; i++) {
         if (this.grid[row + i][col].value !== null) {
           return false;
