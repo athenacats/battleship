@@ -22,6 +22,7 @@ export class AiplacementComponent implements OnInit {
   originalShips: Ships[] = [];
   grid: AICell[][] = [];
   maxPlacementRetries = 50;
+  display = false;
 
   @Output() gridEmitter = new EventEmitter<AICell[][]>();
 
@@ -89,6 +90,7 @@ export class AiplacementComponent implements OnInit {
       }
       this.gridEmitter.emit(this.grid);
       this.initialiseGameService.setAIMapData(this.grid);
+      this.display = false;
     }
   }
 

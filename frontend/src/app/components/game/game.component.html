@@ -9,7 +9,7 @@
   </table>
 </div>
 <div class="content">
-  <table>
+  <table *ngIf="display">
     <tr *ngFor="let row of AIgrid; let i = index">
       <td
         *ngFor="let cell of row; let j = index"

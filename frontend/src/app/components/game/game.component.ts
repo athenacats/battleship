@@ -11,10 +11,12 @@ import { AICell } from '../aiplacement/aiplacement.component';
 export class GameComponent {
   grid: Cell[][] = [];
   AIgrid: AICell[][] = [];
+  display = true;
 
   constructor(private initialiseGameService: InitialisegameService) {
     this.grid = this.initialiseGameService.getMapData();
     this.AIgrid = this.initialiseGameService.getAIMapData();
+    this.display = true;
     console.log(this.grid);
     console.log(this.AIgrid);
   }
