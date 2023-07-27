@@ -139,23 +139,7 @@ export class MapComponent implements OnInit {
   }
 
   clearMap(): void {
-    this.shipArray = [];
-    this.selectedShip = null;
-    for (let i = 0; i < this.rows.length; i++) {
-      for (let j = 0; j < this.cols.length; j++) {
-        this.grid[i][j] = { value: null, backgroundColor: 'var(--table)' };
-      }
-    }
-    console.log('Original Ships:', this.originalShips);
-    this.shipService.getAll().forEach((shipItem) => {
-      console.log('Ship Item:', shipItem);
-      const originalShip = this.originalShips.find(
-        (originalShipItem) => originalShipItem.id === shipItem.id,
-      );
-      if (originalShip) {
-        shipItem.alowedNumberOfShips = originalShip.alowedNumberOfShips;
-      }
-    });
+    window.location.reload();
   }
 
   startGame() {}
