@@ -3,7 +3,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Ships } from 'src/app/data/shipdata';
 import { SelectedshipService } from 'src/app/services/selectedship.service';
 import { ShipsService } from 'src/app/services/ships.service';
-import { AiplacementComponent } from '../aiplacement/aiplacement.component';
 import { Router } from '@angular/router';
 import { InitialisegameService } from 'src/app/services/initialisegame.service';
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Cell } from '../map/map.component';
 import { InitialisegameService } from 'src/app/services/initialisegame.service';
+import { AICell } from '../aiplacement/aiplacement.component';
 
 @Component({
   selector: 'app-game',
@@ -9,9 +10,12 @@ import { InitialisegameService } from 'src/app/services/initialisegame.service';
 })
 export class GameComponent {
   grid: Cell[][] = [];
+  AIgrid: AICell[][] = [];
 
   constructor(private initialiseGameService: InitialisegameService) {
     this.grid = this.initialiseGameService.getMapData();
+    this.AIgrid = this.initialiseGameService.getAIMapData();
     console.log(this.grid);
+    console.log(this.AIgrid);
   }
 }

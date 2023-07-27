@@ -8,3 +8,13 @@
     </tr>
   </table>
 </div>
+<div class="content">
+  <table>
+    <tr *ngFor="let row of AIgrid; let i = index">
+      <td
+        *ngFor="let cell of row; let j = index"
+        [style.background-color]="cell.backgroundColor"
+      ></td>
+    </tr>
+  </table>
+</div>

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Ships } from 'src/app/data/shipdata';
+import { InitialisegameService } from 'src/app/services/initialisegame.service';
 import { ShipsService } from 'src/app/services/ships.service';
 
-interface Cell {
+export interface AICell {
   value: number | null;
   backgroundColor: string;
 }
@@ -19,12 +20,15 @@ export class AiplacementComponent implements OnInit {
   rows = Array.from({ length: 10 }, (_, i) => i);
   cols = Array.from({ length: 10 }, (_, i) => i);
   originalShips: Ships[] = [];
-  grid: Cell[][] = [];
+  grid: AICell[][] = [];
   maxPlacementRetries = 50;
 
-  @Output() gridEmitter = new EventEmitter<Cell[][]>();
+  @Output() gridEmitter = new EventEmitter<AICell[][]>();
 
-  constructor(private shipService: ShipsService) {
+  constructor(
+    private shipService: ShipsService,
+    private initialiseGameService: InitialisegameService,
+  ) {
     this.ships = this.shipService.getAll();
     this.ships.forEach((ship) => {
       this.shipArray.push(ship);
@@ -84,6 +88,7 @@ export class AiplacementComponent implements OnInit {
         return;
       }
       this.gridEmitter.emit(this.grid);
+      this.initialiseGameService.setAIMapData(this.grid);
     }
   }
 
