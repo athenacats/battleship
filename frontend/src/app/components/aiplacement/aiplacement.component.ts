@@ -27,21 +27,19 @@ export class AiplacementComponent implements OnInit {
   @Output() gridEmitter = new EventEmitter<AICell[][]>();
 
   private getOriginalShipsCopy(): Ships[] {
-    return JSON.parse(JSON.stringify(this.originalShips));
+    return this.originalShips.map((ship) => ({ ...ship }));
   }
 
   constructor(
     private shipService: ShipsService,
     private initialiseGameService: InitialisegameService,
-  ) {
-    this.ships = this.getOriginalShipsCopy();
-    this.ships.forEach((ship) => {
-      this.shipArray.push(ship);
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.originalShips = this.getOriginalShipsCopy();
+    this.originalShips = this.shipService.getAll();
+    this.ships = this.getOriginalShipsCopy();
+    this.shipArray = this.ships.map((ship) => ({ ...ship }));
+    console.log(this.shipArray);
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
@@ -51,7 +49,8 @@ export class AiplacementComponent implements OnInit {
     for (let i = 0; i < 5; i++) {
       const randomShipCount =
         this.shipArray[Math.floor(Math.random() * this.shipArray.length)];
-      randomShipCount.alowedNumberOfShips--;
+      const shipCopy = { ...randomShipCount };
+      shipCopy.alowedNumberOfShips--;
       const chosenOrientation = Math.floor(Math.random() * 2);
       //console.log(chosenOrientation);
       if (chosenOrientation === 0) {
@@ -59,10 +58,10 @@ export class AiplacementComponent implements OnInit {
       } else if (chosenOrientation === 1) {
         randomShipCount.orientation = 'Vertical';
       }
-      this.shipSelected.push(randomShipCount);
+      this.shipSelected.push(shipCopy);
 
       this.shipSelected.sort((a, b) => b.shipLength - a.shipLength);
-      //console.log(this.shipSelected);
+      console.log(this.shipSelected);
       // console.log(randomShipCount.orientation);
       // console.log(randomShipCount);
       // console.log(this.shipSelected);
@@ -107,7 +106,9 @@ export class AiplacementComponent implements OnInit {
   }
 
   resetShipPlacement(): void {
+    this.originalShips = this.shipService.getAll();
     const originalShipsCopy = this.getOriginalShipsCopy();
+
     this.shipSelected.forEach((ship) => {
       const originalShip = originalShipsCopy.find(
         (originalShip) => originalShip.id === ship.id,
