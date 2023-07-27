@@ -9,9 +9,10 @@ import { ShipdisplayComponent } from './components/shipdisplay/shipdisplay.compo
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { MapComponent } from './components/map/map.component';
+import { AiplacementComponent } from './components/aiplacement/aiplacement.component';
 
 @NgModule({
-  declarations: [AppComponent, ShipdisplayComponent, HeaderComponent, HomeComponent, MapComponent],
+  declarations: [AppComponent, ShipdisplayComponent, HeaderComponent, HomeComponent, MapComponent, AiplacementComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
