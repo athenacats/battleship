@@ -40,9 +40,17 @@ export class AiplacementComponent implements OnInit {
       const randomShipCount =
         this.shipArray[Math.floor(Math.random() * this.shipArray.length)];
       randomShipCount.alowedNumberOfShips--;
+      const chosenOrientation = Math.floor(Math.random() * 2);
+      console.log(chosenOrientation);
+      if (chosenOrientation === 0) {
+        randomShipCount.orientation = 'Horizontal';
+      } else if (chosenOrientation === 1) {
+        randomShipCount.orientation = 'Vertical';
+      }
       this.shipSelected.push(randomShipCount);
-      console.log(randomShipCount);
-      console.log(this.shipSelected);
+      // console.log(randomShipCount.orientation);
+      // console.log(randomShipCount);
+      // console.log(this.shipSelected);
     }
     this.placeRandomShips();
   }
