@@ -1,0 +1,22 @@
+.content {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+.content table {
+  min-width: 20rem;
+  height: 20rem;
+  width: 20rem;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: auto;
+}
+.content table td {
+  border: 1px solid var(--borders);
+  cursor: pointer;
+  margin: 0;
+  background-color: var(--table);
+}
+.content table td:hover {
+  opacity: 0.8;
+}/*# sourceMappingURL=aiplacement.component.css.map */

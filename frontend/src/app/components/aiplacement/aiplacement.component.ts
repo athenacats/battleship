@@ -33,7 +33,7 @@ export class AiplacementComponent implements OnInit {
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
-        this.grid[i][j] = { value: null, backgroundColor: 'var(--table)' }; // Represents an empty cell
+        this.grid[i][j] = { value: null, backgroundColor: 'var(--primary)' }; // Represents an empty cell
       }
     }
     for (let i = 0; i < 5; i++) {
