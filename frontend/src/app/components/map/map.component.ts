@@ -5,8 +5,9 @@ import { SelectedshipService } from 'src/app/services/selectedship.service';
 import { ShipsService } from 'src/app/services/ships.service';
 import { AiplacementComponent } from '../aiplacement/aiplacement.component';
 import { Router } from '@angular/router';
+import { InitialisegameService } from 'src/app/services/initialisegame.service';
 
-interface Cell {
+export interface Cell {
   value: number | null;
   backgroundColor: string;
 }
@@ -25,7 +26,6 @@ export class MapComponent implements OnInit {
   showAlertMessage = false;
   alertMessage!: string;
   originalShips: Ships[] = [];
-
   @Output() gridEmitter = new EventEmitter<Cell[][]>();
 
   ngOnInit(): void {
@@ -42,6 +42,7 @@ export class MapComponent implements OnInit {
     private selectedShipService: SelectedshipService,
     private shipService: ShipsService,
     private router: Router,
+    private initialiseGameService: InitialisegameService,
   ) {
     this.selectedShipService.getSelectedShip().subscribe((ship: Ships) => {
       this.selectedShip = ship;
@@ -99,6 +100,7 @@ export class MapComponent implements OnInit {
         originalShip.alowedNumberOfShips--;
       }
       this.shipArray.push(currentShip);
+      this.gridEmitter.emit(this.grid);
       console.log(this.shipArray);
     } else {
       this.showAlertMessage = true;
@@ -106,7 +108,6 @@ export class MapComponent implements OnInit {
         this.showAlertMessage = false;
       }, 2000);
     }
-    this.gridEmitter.emit(this.grid);
   }
 
   canPlaceShip(ship: Ships, grid: Cell[][], row: number, col: number): boolean {
@@ -148,6 +149,7 @@ export class MapComponent implements OnInit {
   }
 
   startGame() {
+    this.initialiseGameService.setMapData(this.grid);
     this.router.navigateByUrl('/game');
   }
 }
