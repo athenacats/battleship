@@ -26,7 +26,6 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.originalShips = this.shipService.getAll();
-    console.log(this.originalShips);
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
