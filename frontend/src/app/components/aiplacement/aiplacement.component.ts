@@ -37,8 +37,7 @@ export class AiplacementComponent implements OnInit {
 
   ngOnInit(): void {
     this.originalShips = this.shipService.getAll();
-    this.ships = this.getOriginalShipsCopy();
-    this.shipArray = this.ships.map((ship) => ({ ...ship }));
+    this.shipArray = this.getOriginalShipsCopy();
     console.log(this.shipArray);
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
@@ -49,7 +48,7 @@ export class AiplacementComponent implements OnInit {
     for (let i = 0; i < 5; i++) {
       const randomShipCount =
         this.shipArray[Math.floor(Math.random() * this.shipArray.length)];
-      const shipCopy = { ...randomShipCount };
+      const shipCopy = { ...randomShipCount }; //need this copy so that original array isnt affected
       shipCopy.alowedNumberOfShips--;
       const chosenOrientation = Math.floor(Math.random() * 2);
       //console.log(chosenOrientation);
