@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Ships } from 'src/app/data/shipdata';
 import { SelectedshipService } from 'src/app/services/selectedship.service';
 import { ShipsService } from 'src/app/services/ships.service';
+import { AiplacementComponent } from '../aiplacement/aiplacement.component';
+import { Router } from '@angular/router';
 
 interface Cell {
   value: number | null;
@@ -24,6 +26,8 @@ export class MapComponent implements OnInit {
   alertMessage!: string;
   originalShips: Ships[] = [];
 
+  @Output() gridEmitter = new EventEmitter<Cell[][]>();
+
   ngOnInit(): void {
     this.originalShips = this.shipService.getAll();
     for (let i = 0; i < this.rows.length; i++) {
@@ -37,15 +41,16 @@ export class MapComponent implements OnInit {
   constructor(
     private selectedShipService: SelectedshipService,
     private shipService: ShipsService,
+    private router: Router,
   ) {
     this.selectedShipService.getSelectedShip().subscribe((ship: Ships) => {
-      this.selectedShip = ship; // Update the selected ship variable when the service emits a new ship
+      this.selectedShip = ship;
     });
   }
 
   orientation() {
     if (!this.selectedShip) {
-      return; // No ship selected or allowed number of ships reached, do nothing
+      return;
     }
     if (this.selectedShip.orientation === 'Horizontal') {
       return (this.selectedShip.orientation = 'Vertical');
@@ -101,6 +106,7 @@ export class MapComponent implements OnInit {
         this.showAlertMessage = false;
       }, 2000);
     }
+    this.gridEmitter.emit(this.grid);
   }
 
   canPlaceShip(ship: Ships, grid: Cell[][], row: number, col: number): boolean {
@@ -141,5 +147,7 @@ export class MapComponent implements OnInit {
     window.location.reload();
   }
 
-  startGame() {}
+  startGame() {
+    this.router.navigateByUrl('/game');
+  }
 }

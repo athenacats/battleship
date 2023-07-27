@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Ships } from 'src/app/data/shipdata';
 import { ShipsService } from 'src/app/services/ships.service';
 
@@ -21,6 +21,8 @@ export class AiplacementComponent implements OnInit {
   originalShips: Ships[] = [];
   grid: Cell[][] = [];
   maxPlacementRetries = 50;
+
+  @Output() gridEmitter = new EventEmitter<Cell[][]>();
 
   constructor(private shipService: ShipsService) {
     this.ships = this.shipService.getAll();
@@ -81,6 +83,7 @@ export class AiplacementComponent implements OnInit {
         this.placeRandomShips();
         return;
       }
+      this.gridEmitter.emit(this.grid);
     }
   }
 
