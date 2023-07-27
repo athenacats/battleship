@@ -45,8 +45,58 @@ export class AiplacementComponent implements OnInit {
       console.log(this.shipSelected);
     }
   }
-  /*selectRandomShips() {
-    const randomShipCount = Math.floor(this.shipArray.length * 0.5);
-    console.log(randomShipCount);
-  }*/
+  placeRandomShips(): void {
+    for (const ship of this.shipSelected) {
+      let placed = false;
+      while (!placed) {
+        const row = Math.floor(Math.random() * this.rows.length);
+        const col = Math.floor(Math.random() * this.cols.length);
+
+        if (this.canPlaceShip(ship, row, col)) {
+          this.placeShip(ship, row, col);
+          placed = true;
+        }
+      }
+    }
+  }
+
+  private canPlaceShip(ship: Ships, row: number, col: number): boolean {
+    if (
+      (ship.orientation === 'Horizontal' &&
+        col + ship.shipLength > this.cols.length) ||
+      (ship.orientation === 'Vertical' &&
+        row + ship.shipLength > this.rows.length)
+    ) {
+      return false;
+    }
+    if (ship.orientation === 'Horizontal') {
+      for (let i = 0; i < ship.shipLength; i++) {
+        if (this.grid[row][col + i].value !== null) {
+          return false;
+        }
+      }
+    } else {
+      for (let i = 0; i < ship.shipLength; i++) {
+        if (this.grid[row + i][col].value !== null) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  private placeShip(ship: Ships, row: number, col: number): void {
+    // Place the ship on the grid
+    if (ship.orientation === 'Horizontal') {
+      for (let i = 0; i < ship.shipLength; i++) {
+        this.grid[row][col + i].value = 1;
+        this.grid[row][col + i].backgroundColor = 'var(--table)';
+      }
+    } else {
+      for (let i = 0; i < ship.shipLength; i++) {
+        this.grid[row + i][col].value = 1;
+        this.grid[row + i][col].backgroundColor = 'var(--table)';
+      }
+    }
+  }
 }
