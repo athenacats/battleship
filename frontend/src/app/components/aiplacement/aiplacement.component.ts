@@ -26,18 +26,22 @@ export class AiplacementComponent implements OnInit {
 
   @Output() gridEmitter = new EventEmitter<AICell[][]>();
 
+  private getOriginalShipsCopy(): Ships[] {
+    return JSON.parse(JSON.stringify(this.originalShips));
+  }
+
   constructor(
     private shipService: ShipsService,
     private initialiseGameService: InitialisegameService,
   ) {
-    this.ships = this.shipService.getAll();
+    this.ships = this.getOriginalShipsCopy();
     this.ships.forEach((ship) => {
       this.shipArray.push(ship);
     });
   }
 
   ngOnInit(): void {
-    this.originalShips = this.shipService.getAll();
+    this.originalShips = this.getOriginalShipsCopy();
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
@@ -103,10 +107,14 @@ export class AiplacementComponent implements OnInit {
   }
 
   resetShipPlacement(): void {
+    const originalShipsCopy = this.getOriginalShipsCopy();
     this.shipSelected.forEach((ship) => {
-      ship.alowedNumberOfShips =
-        this.originalShips.find((originalShip) => originalShip.id === ship.id)
-          ?.alowedNumberOfShips || 0;
+      const originalShip = originalShipsCopy.find(
+        (originalShip) => originalShip.id === ship.id,
+      );
+      if (originalShip) {
+        ship.alowedNumberOfShips = originalShip.alowedNumberOfShips;
+      }
     });
   }
 
