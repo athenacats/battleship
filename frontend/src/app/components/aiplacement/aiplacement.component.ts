@@ -6,6 +6,7 @@ import { ShipsService } from 'src/app/services/ships.service';
 export interface AICell {
   value: number | null;
   backgroundColor: string;
+  attacked: boolean;
 }
 
 @Component({
@@ -42,7 +43,11 @@ export class AiplacementComponent implements OnInit {
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
-        this.grid[i][j] = { value: null, backgroundColor: 'var(--secondary)' }; // Represents an empty cell
+        this.grid[i][j] = {
+          value: null,
+          backgroundColor: 'var(--secondary)',
+          attacked: false,
+        }; // Represents an empty cell
       }
     }
     for (let i = 0; i < 5; i++) {
@@ -99,7 +104,11 @@ export class AiplacementComponent implements OnInit {
   resetGrid(): void {
     for (let i = 0; i < this.rows.length; i++) {
       for (let j = 0; j < this.cols.length; j++) {
-        this.grid[i][j] = { value: null, backgroundColor: 'var(--secondary)' };
+        this.grid[i][j] = {
+          value: null,
+          backgroundColor: 'var(--secondary)',
+          attacked: false,
+        };
       }
     }
   }
