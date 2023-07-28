@@ -15,6 +15,7 @@
         <td
           *ngFor="let cell of row; let j = index"
           [style.background-color]="cell.backgroundColor"
+          (click)="checkState(i, j)"
         ></td>
       </tr>
     </table>

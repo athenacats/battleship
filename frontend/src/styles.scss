@@ -32,6 +32,8 @@ $secondary: rgb(56, 75, 55);
 $tertiary: rgb(23, 20, 39);
 $table: rgba(219, 115, 126);
 $borders: #f4c05d;
+$attacked: red;
+$miss: grey;
 
 :root {
   --primary: #{$primary};
@@ -42,4 +44,6 @@ $borders: #f4c05d;
   --table: #{$table};
   --borders: #{$borders};
   --fonts: #{$fonts};
+  --attacked: #{$attacked};
+  --miss: #{$miss};
 }
