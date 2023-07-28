@@ -120,7 +120,12 @@ export class GameComponent {
       for (const direction of directionsToTry) {
         const { row, col } = this.getTargetInDirection(direction);
         console.log(this.getTargetInDirection(direction));
-        if (row !== -1 && col !== -1) {
+        if (
+          row >= 0 &&
+          row < this.rows.length &&
+          col >= 0 &&
+          col < this.cols.length
+        ) {
           const cell = this.grid[row][col];
           console.log(cell);
           if (cell.attacked) {
