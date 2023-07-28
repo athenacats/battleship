@@ -8,6 +8,13 @@ enum AIMode {
   Target,
 }
 
+enum Direction {
+  Up = 'up',
+  Down = 'down',
+  Left = 'left',
+  Right = 'right',
+}
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -21,6 +28,12 @@ export class GameComponent {
   aiMode: AIMode = AIMode.Hunt;
   rows = Array.from({ length: 10 }, (_, i) => i);
   cols = Array.from({ length: 10 }, (_, i) => i);
+  targetRow!: number;
+  targetCol!: number;
+  lastHitDirection: Direction = Direction.Up;
+  lastHitRow = -1;
+  lastHitCol = -1;
+  targetFound = false;
 
   constructor(private initialiseGameService: InitialisegameService) {
     this.grid = this.initialiseGameService.getMapData();
@@ -66,8 +79,107 @@ export class GameComponent {
       for (let i = 0; i < this.rows.length; i++) {
         for (let j = 0; j < this.cols.length; j++) {
           const cell = this.grid[i][j];
+          if (!cell.attacked) {
+            availableCells.push({ row: i, col: j });
+          }
         }
       }
+      if (availableCells.length > 0) {
+        const random = Math.floor(Math.random() * availableCells.length);
+        const randomCellIndex = availableCells[random];
+        const cell = this.grid[randomCellIndex.row][randomCellIndex.col];
+        cell.attacked = true;
+        if (cell.value === 1) {
+          this.aiMode = AIMode.Target;
+          this.targetRow = randomCellIndex.row;
+          this.targetCol = randomCellIndex.col;
+          cell.backgroundColor = 'var(--attacked)';
+          cell.value = null;
+          console.log(cell.value);
+        } else {
+          cell.backgroundColor = 'var(--miss)';
+          console.log(cell.value);
+        }
+      }
+    } else if (this.aiMode === AIMode.Target) {
+      const directionsToTry = [
+        Direction.Up,
+        Direction.Down,
+        Direction.Left,
+        Direction.Right,
+      ];
+
+      for (const direction of directionsToTry) {
+        const { row, col } = this.getTargetInDirection(direction);
+        if (row !== -1 && col !== -1) {
+          const cell = this.grid[row][col];
+          if (cell.value === null) {
+            cell.attacked = true;
+            cell.backgroundColor = 'var(--miss)';
+          } else if (cell.value === 1) {
+            cell.value = null;
+            cell.attacked = true;
+            cell.backgroundColor = 'var(--attacked)';
+            this.lastHitRow = row;
+            this.lastHitCol = col;
+            this.lastHitDirection = direction;
+            this.targetFound = true;
+            break;
+          }
+        }
+      }
+      if (!this.targetFound) {
+        this.aiMode = AIMode.Hunt;
+        this.lastHitRow = -1;
+        this.lastHitCol = -1;
+        Direction.Up;
+      }
+    }
+    const allPlayerShipsSunk = this.grid.every((row) => {
+      row.every((cell) => {
+        cell.value !== 1;
+      });
+    });
+    if (allPlayerShipsSunk) {
+      console.log('AI wins');
+      // figure out
+    }
+    this.isPlayerTurn = false;
+  }
+
+  getTargetInDirection(direction: Direction): {
+    row: number;
+    col: number;
+  } {
+    const { lastHitRow, lastHitCol } = this;
+    let targetRow = lastHitRow;
+    let targetCol = lastHitCol;
+
+    switch (direction) {
+      case Direction.Up:
+        targetRow--;
+        break;
+      case Direction.Down:
+        targetRow++;
+        break;
+      case Direction.Left:
+        targetCol--;
+        break;
+      case Direction.Right:
+        targetCol++;
+        break;
+      default:
+        break;
+    }
+    if (
+      targetRow >= 0 &&
+      targetRow < this.rows.length &&
+      targetCol >= 0 &&
+      targetCol < this.cols.length
+    ) {
+      return { row: targetRow, col: targetCol };
+    } else {
+      return { row: -1, col: -1 }; // Target is outside the grid boundaries
     }
   }
 }
