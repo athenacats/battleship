@@ -54,12 +54,11 @@ export class GameComponent {
           console.log(cell.value);
         } else {
           cell.backgroundColor = 'var(--miss)';
-          console.log(cell.value);
         }
 
         const allAIShipsSunk = this.AIgrid.every((row) => {
-          row.every((cell) => {
-            cell.value !== 1;
+          return row.every((cell) => {
+            return cell.value !== 1;
           });
         });
         if (allAIShipsSunk) {
@@ -74,7 +73,9 @@ export class GameComponent {
   }
 
   aiAttack() {
+    console.log('attacking');
     if (this.aiMode === AIMode.Hunt) {
+      console.log(this.aiMode);
       const availableCells: { row: number; col: number }[] = [];
       for (let i = 0; i < this.rows.length; i++) {
         for (let j = 0; j < this.cols.length; j++) {
@@ -88,11 +89,14 @@ export class GameComponent {
         const random = Math.floor(Math.random() * availableCells.length);
         const randomCellIndex = availableCells[random];
         const cell = this.grid[randomCellIndex.row][randomCellIndex.col];
+        console.log(cell);
         cell.attacked = true;
         if (cell.value === 1) {
           this.aiMode = AIMode.Target;
+          console.log(this.aiMode);
           this.targetRow = randomCellIndex.row;
           this.targetCol = randomCellIndex.col;
+          console.log(this.targetCol);
           cell.backgroundColor = 'var(--attacked)';
           cell.value = null;
           console.log(cell.value);
@@ -101,7 +105,9 @@ export class GameComponent {
           console.log(cell.value);
         }
       }
+      this.isPlayerTurn = true;
     } else if (this.aiMode === AIMode.Target) {
+      console.log(this.aiMode);
       const directionsToTry = [
         Direction.Up,
         Direction.Down,
@@ -109,52 +115,62 @@ export class GameComponent {
         Direction.Right,
       ];
 
+      let targetFoundInDirection = false;
+
       for (const direction of directionsToTry) {
         const { row, col } = this.getTargetInDirection(direction);
+        console.log(this.getTargetInDirection(direction));
         if (row !== -1 && col !== -1) {
           const cell = this.grid[row][col];
+          console.log(cell);
+          if (cell.attacked) {
+            console.log(cell.attacked);
+            continue;
+          }
           if (cell.value === null) {
             cell.attacked = true;
             cell.backgroundColor = 'var(--miss)';
+            this.isPlayerTurn = true;
+            break;
           } else if (cell.value === 1) {
             cell.value = null;
             cell.attacked = true;
             cell.backgroundColor = 'var(--attacked)';
-            this.lastHitRow = row;
-            this.lastHitCol = col;
+            this.targetRow = row;
+            this.targetCol = col;
             this.lastHitDirection = direction;
+            targetFoundInDirection = true;
             this.targetFound = true;
+            this.isPlayerTurn = true;
             break;
           }
         }
       }
-      if (!this.targetFound) {
+      if (targetFoundInDirection) {
         this.aiMode = AIMode.Hunt;
-        this.lastHitRow = -1;
-        this.lastHitCol = -1;
-        Direction.Up;
+        this.targetRow = -1;
+        this.targetCol = -1;
+        this.isPlayerTurn = true;
       }
     }
     const allPlayerShipsSunk = this.grid.every((row) => {
-      row.every((cell) => {
-        cell.value !== 1;
+      return row.every((cell) => {
+        return cell.value !== 1;
       });
     });
     if (allPlayerShipsSunk) {
       console.log('AI wins');
       // figure out
+      this.isPlayerTurn = true;
     }
-    this.isPlayerTurn = false;
   }
 
   getTargetInDirection(direction: Direction): {
     row: number;
     col: number;
   } {
-    const { lastHitRow, lastHitCol } = this;
-    let targetRow = lastHitRow;
-    let targetCol = lastHitCol;
-
+    let targetRow = this.targetRow;
+    let targetCol = this.targetCol;
     switch (direction) {
       case Direction.Up:
         targetRow--;
@@ -179,7 +195,7 @@ export class GameComponent {
     ) {
       return { row: targetRow, col: targetCol };
     } else {
-      return { row: -1, col: -1 }; // Target is outside the grid boundaries
+      return { row: -1, col: -1 };
     }
   }
 }
