@@ -9,6 +9,7 @@ import { InitialisegameService } from 'src/app/services/initialisegame.service';
 export interface Cell {
   value: number | null;
   backgroundColor: string;
+  attacked: boolean;
 }
 
 @Component({
@@ -33,7 +34,11 @@ export class MapComponent implements OnInit {
     for (let i = 0; i < this.rows.length; i++) {
       this.grid[i] = [];
       for (let j = 0; j < this.cols.length; j++) {
-        this.grid[i][j] = { value: null, backgroundColor: 'var(--table)' }; // Represents an empty cell
+        this.grid[i][j] = {
+          value: null,
+          backgroundColor: 'var(--table)',
+          attacked: false,
+        }; // Represents an empty cell
       }
     }
   }
