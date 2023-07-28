@@ -3,6 +3,11 @@ import { Cell } from '../map/map.component';
 import { InitialisegameService } from 'src/app/services/initialisegame.service';
 import { AICell } from '../aiplacement/aiplacement.component';
 
+enum AIMode {
+  Hunt,
+  Target,
+}
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -13,6 +18,9 @@ export class GameComponent {
   AIgrid: AICell[][] = [];
   display = true;
   isPlayerTurn = true;
+  aiMode: AIMode = AIMode.Hunt;
+  rows = Array.from({ length: 10 }, (_, i) => i);
+  cols = Array.from({ length: 10 }, (_, i) => i);
 
   constructor(private initialiseGameService: InitialisegameService) {
     this.grid = this.initialiseGameService.getMapData();
@@ -52,6 +60,14 @@ export class GameComponent {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  aiAttack() {}
+  aiAttack() {
+    if (this.aiMode === AIMode.Hunt) {
+      const availableCells: { row: number; col: number }[] = [];
+      for (let i = 0; i < this.rows.length; i++) {
+        for (let j = 0; j < this.cols.length; j++) {
+          const cell = this.grid[i][j];
+        }
+      }
+    }
+  }
 }
