@@ -135,6 +135,20 @@ export class GameComponent {
           if (cell.value === null) {
             cell.attacked = true;
             cell.backgroundColor = 'var(--miss)';
+            switch (this.lastHitDirection) {
+              case Direction.Up:
+                this.lastHitDirection = Direction.Down;
+                break;
+              case Direction.Down:
+                this.lastHitDirection = Direction.Up;
+                break;
+              case Direction.Left:
+                this.lastHitDirection = Direction.Right;
+                break;
+              case Direction.Right:
+                this.lastHitDirection = Direction.Left;
+                break;
+            }
             this.isPlayerTurn = true;
             break;
           } else if (cell.value === 1) {
