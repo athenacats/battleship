@@ -123,6 +123,8 @@ export class GameComponent {
         Direction.Right,
       ];
 
+      let anySuccessfulAttack = false;
+
       for (const direction of directionsToTry) {
         const { row, col } = this.getTargetInDirection(direction);
         console.log(this.getTargetInDirection(direction));
@@ -146,9 +148,10 @@ export class GameComponent {
             this.targetCol = col;
             this.lastHitDirection = direction;
             this.targetFound = true;
-            this.aiMode = AIMode.Hunt;
+            anySuccessfulAttack = true;
+            /*this.aiMode = AIMode.Hunt;
             this.targetRow = -1;
-            this.targetCol = -1;
+            this.targetCol = -1;*/
             this.isPlayerTurn = true;
             break;
           } else if (cell.value === null || this.targetFound === false) {
@@ -182,6 +185,12 @@ export class GameComponent {
               break;
             }
           }
+        }
+        if (!anySuccessfulAttack) {
+          this.aiMode = AIMode.Hunt;
+          this.targetRow = -1;
+          this.targetCol = -1;
+          this.isPlayerTurn = true;
         }
       }
     }
