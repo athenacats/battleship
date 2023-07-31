@@ -34,6 +34,9 @@ export class GameComponent {
   lastHitRow = -1;
   lastHitCol = -1;
   targetFound = false;
+  playerWon = false;
+  aiWon = false;
+  gameOver = false;
 
   successfulAttacksInDirection: { [key: string]: number } = {
     [Direction.Up]: 0,
@@ -70,8 +73,9 @@ export class GameComponent {
         });
         if (allAIShipsSunk) {
           console.log('Player wins');
-          this.isPlayerTurn = false;
-          // figure out
+          this.isPlayerTurn = true;
+          this.playerWon = true;
+          this.gameOver = true;
         }
 
         this.isPlayerTurn = false;
@@ -148,6 +152,7 @@ export class GameComponent {
             this.targetRow = row;
             this.targetCol = col;
             this.lastHitDirection = direction;
+            this.successfulAttacksInDirection[direction]++;
             this.targetFound = true;
             anySuccessfulAttack = true;
             cell.checked = true;
@@ -176,7 +181,7 @@ export class GameComponent {
                 this.lastHitDirection = Direction.Left;
                 break;
             }
-            if (this.successfulAttacksInDirection[direction] === 4) {
+            if (this.successfulAttacksInDirection[direction] >= 3) {
               this.aiMode = AIMode.Hunt;
               this.targetRow = -1;
               this.targetCol = -1;
@@ -188,6 +193,9 @@ export class GameComponent {
               this.isPlayerTurn = true;
               break;
             }
+          }
+          if (anySuccessfulAttack) {
+            break;
           }
         }
         if (!anySuccessfulAttack) {
@@ -206,8 +214,10 @@ export class GameComponent {
     });
     if (allPlayerShipsSunk) {
       console.log('AI wins');
-      // figure out
-      this.isPlayerTurn = false;
+
+      this.isPlayerTurn = true;
+      this.aiWon = true;
+      this.gameOver = true;
     }
   }
 
