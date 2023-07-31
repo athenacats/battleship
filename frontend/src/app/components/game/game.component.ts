@@ -30,10 +30,17 @@ export class GameComponent {
   cols = Array.from({ length: 10 }, (_, i) => i);
   targetRow!: number;
   targetCol!: number;
-  lastHitDirection: Direction = Direction.Up;
+  lastHitDirection: Direction = Direction.Left;
   lastHitRow = -1;
   lastHitCol = -1;
   targetFound = false;
+
+  successfulAttacksInDirection: { [key: string]: number } = {
+    [Direction.Up]: 0,
+    [Direction.Down]: 0,
+    [Direction.Left]: 0,
+    [Direction.Right]: 0,
+  };
 
   constructor(private initialiseGameService: InitialisegameService) {
     this.grid = this.initialiseGameService.getMapData();
@@ -63,6 +70,7 @@ export class GameComponent {
         });
         if (allAIShipsSunk) {
           console.log('Player wins');
+          this.isPlayerTurn = false;
           // figure out
         }
 
@@ -115,8 +123,6 @@ export class GameComponent {
         Direction.Right,
       ];
 
-      let targetFoundInDirection = false;
-
       for (const direction of directionsToTry) {
         const { row, col } = this.getTargetInDirection(direction);
         console.log(this.getTargetInDirection(direction));
@@ -132,9 +138,23 @@ export class GameComponent {
             console.log(cell.attacked);
             continue;
           }
-          if (cell.value === null) {
+          if (cell.value === 1) {
+            cell.value = null;
+            cell.attacked = true;
+            cell.backgroundColor = 'var(--attacked)';
+            this.targetRow = row;
+            this.targetCol = col;
+            this.lastHitDirection = direction;
+            this.targetFound = true;
+            this.aiMode = AIMode.Hunt;
+            this.targetRow = -1;
+            this.targetCol = -1;
+            this.isPlayerTurn = true;
+            break;
+          } else if (cell.value === null || this.targetFound === false) {
             cell.attacked = true;
             cell.backgroundColor = 'var(--miss)';
+            this.successfulAttacksInDirection[direction]++;
             switch (this.lastHitDirection) {
               case Direction.Up:
                 this.lastHitDirection = Direction.Down;
@@ -149,27 +169,20 @@ export class GameComponent {
                 this.lastHitDirection = Direction.Left;
                 break;
             }
-            this.isPlayerTurn = true;
-            break;
-          } else if (cell.value === 1) {
-            cell.value = null;
-            cell.attacked = true;
-            cell.backgroundColor = 'var(--attacked)';
-            this.targetRow = row;
-            this.targetCol = col;
-            this.lastHitDirection = direction;
-            targetFoundInDirection = true;
-            this.targetFound = true;
-            this.isPlayerTurn = true;
-            break;
+            if (this.successfulAttacksInDirection[direction] === 4) {
+              this.aiMode = AIMode.Hunt;
+              this.targetRow = -1;
+              this.targetCol = -1;
+              this.isPlayerTurn = true;
+              this.targetFound = true;
+              break;
+            } else {
+              this.targetFound = false;
+              this.isPlayerTurn = true;
+              break;
+            }
           }
         }
-      }
-      if (targetFoundInDirection) {
-        this.aiMode = AIMode.Hunt;
-        this.targetRow = -1;
-        this.targetCol = -1;
-        this.isPlayerTurn = true;
       }
     }
     const allPlayerShipsSunk = this.grid.every((row) => {
@@ -180,7 +193,7 @@ export class GameComponent {
     if (allPlayerShipsSunk) {
       console.log('AI wins');
       // figure out
-      this.isPlayerTurn = true;
+      this.isPlayerTurn = false;
     }
   }
 
@@ -190,6 +203,7 @@ export class GameComponent {
   } {
     let targetRow = this.targetRow;
     let targetCol = this.targetCol;
+    console.log(targetCol, targetRow);
     switch (direction) {
       case Direction.Up:
         targetRow--;
@@ -214,6 +228,10 @@ export class GameComponent {
     ) {
       return { row: targetRow, col: targetCol };
     } else {
+      this.aiMode = AIMode.Hunt;
+      this.targetRow = -1;
+      this.targetCol = -1;
+      this.isPlayerTurn = true;
       return { row: -1, col: -1 };
     }
   }
