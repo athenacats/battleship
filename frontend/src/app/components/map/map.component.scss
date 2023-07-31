@@ -39,6 +39,7 @@
   }
   .content {
     display: flex;
+
     justify-content: center;
     gap: 3rem;
     table {
@@ -95,6 +96,15 @@
           opacity: 0.8;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .container {
+    padding: 1rem;
+    .content {
+      flex-direction: column;
     }
   }
 }
