@@ -79,9 +79,18 @@ export class GameComponent {
         }
 
         this.isPlayerTurn = false;
-        this.aiAttack();
+        this.startAIAttack();
       }
     }
+  }
+
+  async startAIAttack() {
+    await this.delay(3000);
+    this.aiAttack();
+  }
+
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   aiAttack() {
