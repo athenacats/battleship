@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { InitialisegameService } from 'src/app/services/initialisegame.service';
 
 export interface Cell {
+  checked: boolean;
   value: number | null;
   backgroundColor: string;
   attacked: boolean;
@@ -38,6 +39,7 @@ export class MapComponent implements OnInit {
           value: null,
           backgroundColor: 'var(--table)',
           attacked: false,
+          checked: false,
         }; // Represents an empty cell
       }
     }

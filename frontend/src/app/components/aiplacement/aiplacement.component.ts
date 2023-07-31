@@ -7,6 +7,7 @@ export interface AICell {
   value: number | null;
   backgroundColor: string;
   attacked: boolean;
+  checked: boolean;
 }
 
 @Component({
@@ -47,6 +48,7 @@ export class AiplacementComponent implements OnInit {
           value: null,
           backgroundColor: 'var(--secondary)',
           attacked: false,
+          checked: false,
         }; // Represents an empty cell
       }
     }
@@ -108,6 +110,7 @@ export class AiplacementComponent implements OnInit {
           value: null,
           backgroundColor: 'var(--secondary)',
           attacked: false,
+          checked: false,
         };
       }
     }

@@ -99,6 +99,7 @@ export class GameComponent {
         const cell = this.grid[randomCellIndex.row][randomCellIndex.col];
         console.log(cell);
         cell.attacked = true;
+        cell.checked = true;
         if (cell.value === 1) {
           this.aiMode = AIMode.Target;
           console.log(this.aiMode);
@@ -149,6 +150,7 @@ export class GameComponent {
             this.lastHitDirection = direction;
             this.targetFound = true;
             anySuccessfulAttack = true;
+            cell.checked = true;
             /*this.aiMode = AIMode.Hunt;
             this.targetRow = -1;
             this.targetCol = -1;*/
@@ -157,6 +159,8 @@ export class GameComponent {
           } else if (cell.value === null || this.targetFound === false) {
             cell.attacked = true;
             cell.backgroundColor = 'var(--miss)';
+            anySuccessfulAttack = true;
+            cell.checked = true;
             this.successfulAttacksInDirection[direction]++;
             switch (this.lastHitDirection) {
               case Direction.Up:
@@ -187,6 +191,7 @@ export class GameComponent {
           }
         }
         if (!anySuccessfulAttack) {
+          this.targetFound = false;
           this.aiMode = AIMode.Hunt;
           this.targetRow = -1;
           this.targetCol = -1;
