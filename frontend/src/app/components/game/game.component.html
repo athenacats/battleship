@@ -10,8 +10,8 @@
         ></td>
       </tr>
     </table>
-    <h4 *ngIf="!isPlayerTurn" class="enemyTurn">Enemy's Turn</h4>
     <h3>Player's Map</h3>
+    <h4 *ngIf="!isPlayerTurn" class="enemyTurn">Enemy's Turn</h4>
   </div>
   <div class="content">
     <table *ngIf="display">
@@ -23,7 +23,7 @@
         ></td>
       </tr>
     </table>
-    <h4 *ngIf="isPlayerTurn" class="playerTurn">Player's Turn</h4>
     <h3 class="enemy">Enemy Map</h3>
+    <h4 *ngIf="isPlayerTurn" class="playerTurn">Player's Turn</h4>
   </div>
 </div>

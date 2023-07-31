@@ -85,7 +85,7 @@ export class GameComponent {
   }
 
   async startAIAttack() {
-    await this.delay(3000);
+    await this.delay(2000);
     this.aiAttack();
   }
 
