@@ -1,0 +1,257 @@
+import { __decorate } from "tslib";
+import { Component } from '@angular/core';
+var AIMode;
+(function (AIMode) {
+    AIMode[AIMode["Hunt"] = 0] = "Hunt";
+    AIMode[AIMode["Target"] = 1] = "Target";
+})(AIMode || (AIMode = {}));
+var Direction;
+(function (Direction) {
+    Direction["Up"] = "up";
+    Direction["Down"] = "down";
+    Direction["Left"] = "left";
+    Direction["Right"] = "right";
+})(Direction || (Direction = {}));
+export let GameComponent = class GameComponent {
+    constructor(initialiseGameService) {
+        this.initialiseGameService = initialiseGameService;
+        this.grid = [];
+        this.AIgrid = [];
+        this.display = true;
+        this.isPlayerTurn = true;
+        this.aiMode = AIMode.Hunt;
+        this.rows = Array.from({ length: 10 }, (_, i) => i);
+        this.cols = Array.from({ length: 10 }, (_, i) => i);
+        this.lastHitDirection = Direction.Left;
+        this.lastHitRow = -1;
+        this.lastHitCol = -1;
+        this.targetFound = false;
+        this.playerWon = false;
+        this.aiWon = false;
+        this.gameOver = false;
+        this.successfulAttacksInDirection = {
+            [Direction.Up]: 0,
+            [Direction.Down]: 0,
+            [Direction.Left]: 0,
+            [Direction.Right]: 0,
+        };
+        this.grid = this.initialiseGameService.getMapData();
+        this.AIgrid = this.initialiseGameService.getAIMapData();
+        this.display = true;
+        console.log(this.grid);
+        console.log(this.AIgrid);
+    }
+    checkState(row, col) {
+        if (this.isPlayerTurn) {
+            const cell = this.AIgrid[row][col];
+            if (!cell.attacked) {
+                cell.attacked = true;
+                if (cell.value === 1) {
+                    cell.backgroundColor = 'var(--attacked)';
+                    cell.value = null;
+                    console.log(cell.value);
+                }
+                else {
+                    cell.backgroundColor = 'var(--miss)';
+                }
+                const allAIShipsSunk = this.AIgrid.every((row) => {
+                    return row.every((cell) => {
+                        return cell.value !== 1;
+                    });
+                });
+                if (allAIShipsSunk) {
+                    console.log('Player wins');
+                    this.isPlayerTurn = true;
+                    this.playerWon = true;
+                    this.gameOver = true;
+                }
+                this.isPlayerTurn = false;
+                this.startAIAttack();
+            }
+        }
+    }
+    async startAIAttack() {
+        await this.delay(2000);
+        this.aiAttack();
+    }
+    delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    aiAttack() {
+        console.log('attacking');
+        if (this.aiMode === AIMode.Hunt) {
+            console.log(this.aiMode);
+            const availableCells = [];
+            for (let i = 0; i < this.rows.length; i++) {
+                for (let j = 0; j < this.cols.length; j++) {
+                    const cell = this.grid[i][j];
+                    if (!cell.attacked) {
+                        availableCells.push({ row: i, col: j });
+                    }
+                }
+            }
+            if (availableCells.length > 0) {
+                const random = Math.floor(Math.random() * availableCells.length);
+                const randomCellIndex = availableCells[random];
+                const cell = this.grid[randomCellIndex.row][randomCellIndex.col];
+                console.log(cell);
+                cell.attacked = true;
+                cell.checked = true;
+                if (cell.value === 1) {
+                    this.aiMode = AIMode.Target;
+                    console.log(this.aiMode);
+                    this.targetRow = randomCellIndex.row;
+                    this.targetCol = randomCellIndex.col;
+                    console.log(this.targetCol);
+                    cell.backgroundColor = 'var(--attacked)';
+                    cell.value = null;
+                    console.log(cell.value);
+                }
+                else {
+                    cell.backgroundColor = 'var(--miss)';
+                    console.log(cell.value);
+                }
+            }
+            this.isPlayerTurn = true;
+        }
+        else if (this.aiMode === AIMode.Target) {
+            console.log(this.aiMode);
+            const directionsToTry = [
+                Direction.Up,
+                Direction.Down,
+                Direction.Left,
+                Direction.Right,
+            ];
+            let anySuccessfulAttack = false;
+            for (const direction of directionsToTry) {
+                const { row, col } = this.getTargetInDirection(direction);
+                console.log(this.getTargetInDirection(direction));
+                if (row >= 0 &&
+                    row < this.rows.length &&
+                    col >= 0 &&
+                    col < this.cols.length) {
+                    const cell = this.grid[row][col];
+                    console.log(cell);
+                    if (cell.attacked) {
+                        console.log(cell.attacked);
+                        continue;
+                    }
+                    if (cell.value === 1) {
+                        cell.value = null;
+                        cell.attacked = true;
+                        cell.backgroundColor = 'var(--attacked)';
+                        this.targetRow = row;
+                        this.targetCol = col;
+                        this.lastHitDirection = direction;
+                        this.successfulAttacksInDirection[direction]++;
+                        this.targetFound = true;
+                        anySuccessfulAttack = true;
+                        cell.checked = true;
+                        /*this.aiMode = AIMode.Hunt;
+                        this.targetRow = -1;
+                        this.targetCol = -1;*/
+                        this.isPlayerTurn = true;
+                        break;
+                    }
+                    else if (cell.value === null || this.targetFound === false) {
+                        cell.attacked = true;
+                        cell.backgroundColor = 'var(--miss)';
+                        anySuccessfulAttack = true;
+                        cell.checked = true;
+                        this.successfulAttacksInDirection[direction]++;
+                        switch (this.lastHitDirection) {
+                            case Direction.Up:
+                                this.lastHitDirection = Direction.Down;
+                                break;
+                            case Direction.Down:
+                                this.lastHitDirection = Direction.Up;
+                                break;
+                            case Direction.Left:
+                                this.lastHitDirection = Direction.Right;
+                                break;
+                            case Direction.Right:
+                                this.lastHitDirection = Direction.Left;
+                                break;
+                        }
+                        if (this.successfulAttacksInDirection[direction] >= 3) {
+                            this.aiMode = AIMode.Hunt;
+                            this.targetRow = -1;
+                            this.targetCol = -1;
+                            this.isPlayerTurn = true;
+                            this.targetFound = true;
+                            break;
+                        }
+                        else {
+                            this.targetFound = false;
+                            this.isPlayerTurn = true;
+                            break;
+                        }
+                    }
+                    if (anySuccessfulAttack) {
+                        break;
+                    }
+                }
+                if (!anySuccessfulAttack) {
+                    this.targetFound = false;
+                    this.aiMode = AIMode.Hunt;
+                    this.targetRow = -1;
+                    this.targetCol = -1;
+                    this.isPlayerTurn = true;
+                }
+            }
+        }
+        const allPlayerShipsSunk = this.grid.every((row) => {
+            return row.every((cell) => {
+                return cell.value !== 1;
+            });
+        });
+        if (allPlayerShipsSunk) {
+            console.log('AI wins');
+            this.isPlayerTurn = true;
+            this.aiWon = true;
+            this.gameOver = true;
+        }
+    }
+    getTargetInDirection(direction) {
+        let targetRow = this.targetRow;
+        let targetCol = this.targetCol;
+        console.log(targetCol, targetRow);
+        switch (direction) {
+            case Direction.Up:
+                targetRow--;
+                break;
+            case Direction.Down:
+                targetRow++;
+                break;
+            case Direction.Left:
+                targetCol--;
+                break;
+            case Direction.Right:
+                targetCol++;
+                break;
+            default:
+                break;
+        }
+        if (targetRow >= 0 &&
+            targetRow < this.rows.length &&
+            targetCol >= 0 &&
+            targetCol < this.cols.length) {
+            return { row: targetRow, col: targetCol };
+        }
+        else {
+            this.aiMode = AIMode.Hunt;
+            this.targetRow = -1;
+            this.targetCol = -1;
+            this.isPlayerTurn = true;
+            return { row: -1, col: -1 };
+        }
+    }
+};
+GameComponent = __decorate([
+    Component({
+        selector: 'app-game',
+        templateUrl: './game.component.html',
+        styleUrls: ['./game.component.scss'],
+    })
+], GameComponent);
+//# sourceMappingURL=game.component.js.map
