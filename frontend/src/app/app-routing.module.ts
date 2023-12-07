@@ -4,8 +4,8 @@ import { HomeComponent } from './components/home/home.component';
 import { GameComponent } from './components/game/game.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'game', component: GameComponent },
+  { path: '', component: HomeComponent, title: 'Battleship' },
+  { path: 'game', component: GameComponent, title: 'Battleship: Play Game' },
 ];
 
 @NgModule({
